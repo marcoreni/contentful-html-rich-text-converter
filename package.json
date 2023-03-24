@@ -4,6 +4,7 @@
     "description": "Restructure html into contentful's rich-text model",
     "homepage": "https://github.com/sethimcclaine/contentful-html-rich-text-converter",
     "main": "index.js",
+    "types": "index.d.ts",
     "scripts": {
         "test": "node tests/index.test.js"
     },
@@ -28,9 +29,8 @@
     },
     "devDependencies": {
         "@contentful/rich-text-html-renderer": "^16.0.2",
-        "contentful": "^7.1.0",
-        "contentful-migration": "^0.16.6",
-        "isomorphic-fetch": "^2.2.1",
+        "contentful": "^9.3.5",
+        "contentful-management": "^10.31.2",
         "prettier": "^2.8.4"
     }
 }
