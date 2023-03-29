@@ -174,7 +174,7 @@ const parseIFramesFromDom = (dom) => {
     return iFrames;
 };
 
-const transformDom = (dom, parents = [], getAssetId) => {
+const transformDom = (dom, parents = [], getAssetId, getIframeId) => {
     let results = [];
 
     R.forEach((elm) => {
@@ -188,7 +188,7 @@ const transformDom = (dom, parents = [], getAssetId) => {
         let newParents = [...parents, htmlAttrs[type][name]];
 
         if (children) {
-            content = transformDom(children, newParents);
+            content = transformDom(children, newParents, getAssetId, getIframeId);
         }
 
         if (
@@ -260,7 +260,9 @@ const transformDom = (dom, parents = [], getAssetId) => {
                     break;
                 case "iframe":
                     const mediaURL = attribs.src;
-                    const mediaId = hashCode(mediaURL).toString();
+                    const mediaId = getIframeId
+                        ? getIframeId(mediaURL) 
+                        : hashCode(mediaURL).toString();
 
                     newData = {
                         data: {
@@ -379,7 +381,7 @@ const transformDom = (dom, parents = [], getAssetId) => {
     return results;
 };
 
-const parseHtml = (html, getAssetId) => {
+const parseHtml = (html, getAssetId, getIframeId) => {
     const handleFn = (error, dom) => {
         if (error) {
             throw error;
@@ -387,7 +389,7 @@ const parseHtml = (html, getAssetId) => {
         transformed = {
             data: {},
             content: enforceTopLevelParagraphs(
-                transformDom(dom, [], getAssetId)
+                transformDom(dom, [], getAssetId, getIframeId)
             ),
             nodeType: "document",
         };
