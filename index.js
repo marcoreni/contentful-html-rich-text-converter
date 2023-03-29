@@ -351,6 +351,7 @@ const transformDom = (dom, parents = [], getAssetId, getIframeId) => {
                 default:
                     if (!htmlAttrs[type][name]) {
                         console.log("*** new data needed under -", type, name);
+                        break;
                     }
 
                     content = enforceValidContent(
@@ -378,7 +379,7 @@ const transformDom = (dom, parents = [], getAssetId, getIframeId) => {
                 ? R.concat(results, newData)
                 : R.append(newData, results);
     }, dom);
-    return results;
+    return R.filter((r) => !R.isEmpty(r), results);
 };
 
 const parseHtml = (html, getAssetId, getIframeId) => {
